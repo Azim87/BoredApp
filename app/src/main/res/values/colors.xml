@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#252C31</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#00574B</color>
+    <color name="not_selected">#0FF3AB</color>
+    <color name="selected">#0E23E6</color>
+    <color name="bg_main_button_color">#5363F1</color>
+    <color name="main_button_text_color">#fff</color>
+    <color name="activity_color_black">#000</color>
+    <color name="main_bg_color">#252C31</color>
+
+
+</resources>
