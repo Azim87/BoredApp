@@ -3,7 +3,7 @@ package com.example.androidlesson3;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -16,16 +16,17 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.androidlesson3.data.IBoredApiClient;
-import com.example.androidlesson3.data.RequestActionOptions;
 import com.example.androidlesson3.models.BoredAction;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 import static com.example.androidlesson3.R.drawable.icon_blue;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,10 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String SAVE_INTRO = "intro";
     private boolean isChanged = true;
     private String selected;
-    float minPrice;
 
-//region    Init views
-
+    //region    Init views
     @BindView(R.id.refresh_button)
     Button refreshButton;
 
@@ -79,15 +78,10 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.main_spinner)
     Spinner mainSpinner;
 
-    @BindView(R.id.seekBar_1)
-    SeekBar priceSeekBar;
-
-    @BindView(R.id.seekBar_2)
-    SeekBar accessibilitySeekBar;
     //endregion
 
     private static final String[] category =
-            {"Type", "education", "recreational", "social", "DIY", "charity", "cooking", "relaxation", "music", "busywork"};
+            {"Type", "education", "recreational", "social", "diy", "charity", "cooking", "relaxation", "music", "busywork"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,53 +127,46 @@ public class MainActivity extends AppCompatActivity {
         mainSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                 selected = mainSpinner.getSelectedItem().toString();
+                selected = mainSpinner.getSelectedItem().toString();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-        priceSeekBar.setProgress((int) 0.0);
-        priceSeekBar.setMax((int) 1.0);
-
-        minPrice = priceSeekBar.getProgress();
-
 
         //endregion
     }
-        //region Like/Dislike
+    //region Like/Dislike
 
     @OnClick(R.id.like_image_view)
     void changeLikeImage() {
         imageLikeView.setOnClickListener(view -> {
-            int icon;
+
             if (isChanged) {
-                isChanged = false;
-                icon = R.drawable.filled_icon;
+                imageLikeView.setImageResource(R.drawable.filled_icon);
             } else {
-                isChanged = true;
-                icon = icon_blue;
+                imageLikeView.setImageResource(R.drawable.icon_blue);
             }
-            imageLikeView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), icon));
+            isChanged = !isChanged;
         });
 
     }
     //endregion
-
-        //region Show/hide views
+    //region Show/hide views
 
     private void showLoading() {
         progressBar.setVisibility(View.INVISIBLE);
     }
 
     private void hideLoading() {
-        progressBar.setVisibility(View.VISIBLE);
+        showProgress();
         activity.setVisibility(View.INVISIBLE);
         accessibility.setVisibility(View.INVISIBLE);
         type.setVisibility(View.INVISIBLE);
         participants.setVisibility(View.INVISIBLE);
         price.setVisibility(View.INVISIBLE);
-        link.setVisibility(View.GONE);
+        link.setVisibility(View.INVISIBLE);
         imageView.setVisibility(View.INVISIBLE);
         rangePrice.setVisibility(View.INVISIBLE);
         rangeAccessibility.setVisibility(View.INVISIBLE);
@@ -187,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showError() {
-        progressBar.setVisibility(View.GONE);
+        hideProgress();
         activity.setVisibility(View.INVISIBLE);
         accessibility.setVisibility(View.INVISIBLE);
         type.setVisibility(View.INVISIBLE);
@@ -200,27 +187,17 @@ public class MainActivity extends AppCompatActivity {
     }
     //endregion
 
-        //region Refresh views
+    //region Refresh views
 
     @OnClick(R.id.refresh_button)
     public void refreshAction() {
         refreshButton.setOnClickListener(view -> {
-
             hideLoading();
-            RequestActionOptions actionOptions = new RequestActionOptions(
-                selected,
-                    minPrice,
-                    0.6f,
-                    1f,
-                    4f);
-
-            App.boredApiClient.getBoredAction(actionOptions, new IBoredApiClient.BoredActionCallback() {
+            App.boredApiClient.getBoredAction(new IBoredApiClient.BoredActionCallback() {
                 @Override
                 public void onSuccess(BoredAction action) {
-                    Log.d("ololo", "onresponce: " + selected);
-                    Log.d("ololo", "onresponce: " + actionOptions.getMinPrice());
                     showLoading();
-
+                    Log.d("ololo", "action : " + action.getActivity() + " " + action.getType());
                     activity.setText(action.getActivity());
                     accessibility.setText(String.valueOf(action.getAccessibility()));
                     type.setText(selected);
@@ -252,4 +229,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     //endregion
+
+    private void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
 }
