@@ -142,17 +142,17 @@
             android:layout_centerHorizontal="true" />
 
         <ProgressBar
-            style="@android:style/Widget.ProgressBar.Horizontal"
+            style="?android:attr/progressBarStyleHorizontal"
             android:id="@+id/accessibility_progress"
+            android:layout_width="80dp"
+            android:layout_height="13dp"
             android:layout_below="@+id/bored_accessibility"
             android:layout_alignParentEnd="true"
-            android:layout_margin="10dp"
-            android:progress="100"
+            android:layout_margin="13dp"
+            android:progress="30"
             android:max="100"
-            android:progressTint="@color/access_progress_color"
-            android:progressBackgroundTint="@color/colorPrimaryDark"
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"/>
+            android:progressDrawable="@drawable/access_gradient"
+            />
 
         <ImageView
             android:id="@+id/participants_image"

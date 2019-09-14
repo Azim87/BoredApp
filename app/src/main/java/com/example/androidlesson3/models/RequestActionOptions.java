@@ -1,4 +1,4 @@
-package com.example.androidlesson3.data;
+package com.example.androidlesson3.models;
 
 public class RequestActionOptions {
 

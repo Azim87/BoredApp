@@ -1,4 +1,4 @@
-package com.example.androidlesson3;
+package com.example.androidlesson3.adapters;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

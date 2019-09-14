@@ -1,6 +1,5 @@
 package com.example.androidlesson3.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,14 +8,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
-import com.example.androidlesson3.MainActivity;
+import com.example.androidlesson3.main.MainActivity;
 import com.example.androidlesson3.R;
 import com.example.androidlesson3.core.CoreFragment;
 import com.example.androidlesson3.models.IntroModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import static android.content.Context.MODE_PRIVATE;
 

@@ -1,40 +1,28 @@
 package com.example.androidlesson3.models;
 
-import androidx.annotation.NonNull;
-
-import com.google.gson.annotations.SerializedName;
-
 public class BoredAction {
-    @SerializedName("key")
-    private String key;
 
-    @SerializedName("activity")
     private String activity;
 
-    @SerializedName("accessibility")
     private Float accessibility;
 
-    @SerializedName("type")
     private EnamActionType type;
 
-    @SerializedName("participants")
     private Integer participants;
 
-    @SerializedName("price")
     private Float price;
 
-    @SerializedName("link")
     private String link;
 
 
-    public BoredAction(String key, String activity, Float accessibility, EnamActionType type, Integer participants, Float price, String link) {
+    public BoredAction(String activity, Float accessibility, EnamActionType type, Integer participants, Float price, String link) {
         this.activity = activity;
         this.accessibility = accessibility;
         this.type = type;
         this.participants = participants;
         this.price = price;
         this.link = link;
-        this.key = key;
+
     }
 
     public String getActivity() {
@@ -85,19 +73,6 @@ public class BoredAction {
         this.link = link;
     }
 
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return activity + " " + accessibility + " " + type + " " + price + " " + participants + " " + link;
-    }
 
 
 }

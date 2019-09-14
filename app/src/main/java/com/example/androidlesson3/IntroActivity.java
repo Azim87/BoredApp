@@ -5,6 +5,8 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.example.androidlesson3.adapters.ViewPagerAdapter;
 import com.example.androidlesson3.models.IntroModel;
 import java.util.ArrayList;
 

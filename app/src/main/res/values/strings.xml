@@ -15,8 +15,9 @@
     <string name="welcome_title">Welcome to Bored App</string>
     <string name="todo">TODO</string>
     <string name="activity">activity</string>
-    <string name="category">Category</string>
-    <string name="accesibility_seekbar">Accesibility</string>
+    <string name="category1">Category</string>
+    <string name="accessibility_seekbar">Accessibility</string>
     <string name="price_seekBar">Price</string>
+    <string name="category2">Category</string>
 
 </resources>
