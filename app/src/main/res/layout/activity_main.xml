@@ -60,14 +60,6 @@
             android:textSize="35sp" />
 
         <TextView
-            android:id="@+id/bored_participants"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/bored_activity"
-            android:gravity="center_horizontal"
-            android:textSize="20sp" />
-
-        <TextView
             android:id="@+id/participants"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,16 +68,6 @@
             android:textColor="@color/activity_color_black"
             android:text="participants"
             android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/bored_price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/bored_activity"
-            android:gravity="start"
-            android:textAlignment="viewStart"
-            android:layout_marginLeft="20dp"
-            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/price"
@@ -98,15 +80,6 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/bored_accessibility"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/bored_activity"
-            android:gravity="end"
-            android:layout_marginEnd="20dp"
-            android:textSize="20sp" />
-
-        <TextView
             android:id="@+id/accessibility"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -116,13 +89,6 @@
             android:text="accessibility"
             android:textColor="@color/activity_color_black"
             android:textSize="12sp" />
-
-        <TextView
-            android:layout_below="@+id/price"
-            android:id="@+id/bored_link"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal" />
 
         <ImageView
             android:layout_centerInParent="true"
@@ -146,7 +112,7 @@
             android:id="@+id/accessibility_progress"
             android:layout_width="80dp"
             android:layout_height="13dp"
-            android:layout_below="@+id/bored_accessibility"
+           android:layout_below="@+id/bored_activity"
             android:layout_alignParentEnd="true"
             android:layout_margin="13dp"
             android:progress="30"
@@ -157,7 +123,7 @@
         <ImageView
             android:id="@+id/participants_image"
             android:layout_margin="5dp"
-            android:layout_below="@+id/bored_participants"
+            android:layout_below="@+id/bored_activity"
             android:src="@drawable/employee"
             android:layout_centerHorizontal="true"
             android:layout_width="30dp"
@@ -167,7 +133,7 @@
             android:id="@+id/price_image"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_below="@+id/bored_participants"
+            android:layout_below="@+id/bored_activity"
             android:src="@drawable/icons"
             android:layout_marginLeft="20dp"
             android:layout_width="25dp"
@@ -227,7 +193,7 @@
             android:layout_height="wrap_content"/>
 
         <com.innovattic.rangeseekbar.RangeSeekBar
-            android:id="@+id/seekBar_1"
+            android:id="@+id/seekBar_12"
             android:textAlignment="textStart"
             android:layout_below="@+id/seekBar_price"
             android:layout_alignParentEnd="true"
@@ -244,7 +210,7 @@
             android:text="@string/accessibility_seekbar"
             android:layout_centerHorizontal="true"
             android:textColor="@color/main_button_text_color"
-            android:layout_below="@+id/seekBar_1"
+            android:layout_below="@+id/seekBar_12"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginStart="143dp"

@@ -1,20 +1,29 @@
 package com.example.androidlesson3.models;
 
-public class BoredAction {
+import androidx.annotation.NonNull;
 
+import com.google.gson.annotations.SerializedName;
+
+public class BoredAction {
+    @SerializedName("activity")
     private String activity;
 
+    @SerializedName("accessibility")
     private Float accessibility;
 
+    @SerializedName("type")
     private EnamActionType type;
 
+    @SerializedName("participants")
     private Integer participants;
 
+    @SerializedName("price")
     private Float price;
 
+    @SerializedName("link")
     private String link;
 
-
+    //region Constructor
     public BoredAction(String activity, Float accessibility, EnamActionType type, Integer participants, Float price, String link) {
         this.activity = activity;
         this.accessibility = accessibility;
@@ -22,9 +31,10 @@ public class BoredAction {
         this.participants = participants;
         this.price = price;
         this.link = link;
-
     }
+    //endregion
 
+    //region Getter and Setters
     public String getActivity() {
         return activity;
     }
@@ -34,8 +44,7 @@ public class BoredAction {
     }
 
     public Float getAccessibility() {
-        return accessibility;
-    }
+        return accessibility; }
 
     public void setAccessibility(Float accessibility) {
         this.accessibility = accessibility;
@@ -72,7 +81,13 @@ public class BoredAction {
     public void setLink(String link) {
         this.link = link;
     }
+    //endregion
 
-
-
+    //region toString
+    @NonNull
+    @Override
+    public String toString() {
+        return activity + " " + accessibility + " " + type + " " + participants + " " + price;
+    }
+    //endregion
 }

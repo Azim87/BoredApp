@@ -1,9 +1,5 @@
 package com.example.androidlesson3.main;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -22,11 +18,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.androidlesson3.App;
 import com.example.androidlesson3.IntroActivity;
 import com.example.androidlesson3.R;
 import com.example.androidlesson3.data.IBoredApiClient;
+import com.example.androidlesson3.models.ActionRequestOptions;
 import com.example.androidlesson3.models.BoredAction;
+import com.innovattic.rangeseekbar.RangeSeekBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,20 +49,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.bored_activity)
     TextView activity;
 
-    @BindView(R.id.bored_accessibility)
-    TextView accessibility;
 
     @BindView(R.id.bored_type)
     TextView type;
-
-    @BindView(R.id.bored_participants)
-    TextView participants;
-
-    @BindView(R.id.bored_price)
-    TextView price;
-
-    @BindView(R.id.bored_link)
-    TextView link;
 
     @BindView(R.id.like_image_view)
     ImageView imageLikeView;
@@ -78,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     TextView rangeAccessibility;
 
     @BindView(R.id.refresh_progress_bar)
-    ProgressBar progressBar;
+    ProgressBar progressBarLoading;
 
     @BindView(R.id.main_spinner)
     Spinner mainSpinner;
@@ -92,6 +83,11 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.price_image)
     ImageView priceImageView;
 
+    @BindView(R.id.seekBar_12)
+    RangeSeekBar seekBarPrice;
+
+    @BindView(R.id.seekBar_2)
+    RangeSeekBar seekBarAccess;
 
     //endregion
 
@@ -143,15 +139,13 @@ public class MainActivity extends AppCompatActivity {
         mainSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selected = mainSpinner.getSelectedItem().toString();
+                selected = (String) mainSpinner.getSelectedItem();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-
-
         //endregion
     }
     //region Like/Dislike
@@ -169,6 +163,13 @@ public class MainActivity extends AppCompatActivity {
             isChanged = !isChanged;
         });
 
+        seekBarPrice.setMaxThumbValue(1);
+        seekBarPrice.setMinThumbValue(0);
+
+        seekBarAccess.setMinThumbValue(1);
+        seekBarAccess.setMaxThumbValue(0);
+
+
     }
     //endregion
     //region Show/hide views
@@ -177,11 +178,7 @@ public class MainActivity extends AppCompatActivity {
     private void hideLoading() {
         showProgress();
         activity.setVisibility(View.INVISIBLE);
-        accessibility.setVisibility(View.INVISIBLE);
         type.setVisibility(View.INVISIBLE);
-        participants.setVisibility(View.INVISIBLE);
-        price.setVisibility(View.INVISIBLE);
-        link.setVisibility(View.INVISIBLE);
         imageView.setVisibility(View.INVISIBLE);
         participantsImageView.setVisibility(View.INVISIBLE);
         priceImageView.setVisibility(View.INVISIBLE);
@@ -194,16 +191,24 @@ public class MainActivity extends AppCompatActivity {
     private void showError() {
         hideProgress();
         activity.setVisibility(View.INVISIBLE);
-        accessibility.setVisibility(View.INVISIBLE);
         type.setVisibility(View.INVISIBLE);
-        participants.setVisibility(View.INVISIBLE);
-        price.setVisibility(View.INVISIBLE);
-        link.setVisibility(View.GONE);
         imageView.setVisibility(View.VISIBLE);
         priceImageView.setVisibility(View.INVISIBLE);
         participantsImageView.setVisibility(View.INVISIBLE);
         Toast.makeText(MainActivity.this, "No internet connection",
                 Toast.LENGTH_LONG).show();
+    }
+
+    private void showViewsOnSuccess() {
+        activity.setVisibility(View.VISIBLE);
+        type.setVisibility(View.VISIBLE);
+        participantsImageView.setVisibility(View.VISIBLE);
+        priceImageView.setVisibility(View.VISIBLE);
+        progressBarLoading.setVisibility(View.INVISIBLE);
+        progressBarAccess.setVisibility(View.VISIBLE);
+        rangePrice.setVisibility(View.VISIBLE);
+        rangeAccessibility.setVisibility(View.VISIBLE);
+        rangeParticipants.setVisibility(View.VISIBLE);
     }
     //endregion
 
@@ -212,36 +217,50 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.refresh_button)
     public void refreshAction() {
         refreshButton.setOnClickListener(view -> {
+
+            float minPrice = seekBarPrice.getMinThumbValue() / 100.0f;
+            float maxPrice = seekBarPrice.getMaxThumbValue() / 100.0f;
+
+            float minAccess = seekBarAccess.getMinThumbValue() /100.0f;
+            float maxAccess = seekBarAccess.getMaxThumbValue() /100.0f;
+
             hideLoading();
-            App.boredApiClient.getBoredAction(new IBoredApiClient.BoredActionCallback() {
+
+            ActionRequestOptions requestOptions = new ActionRequestOptions(
+                    selected,
+                    minPrice,
+                    maxPrice,
+                    minAccess,
+                    maxAccess
+            );
+            Log.d("ohoho", "price " + minPrice + " " + maxPrice);
+            Log.d("ohoho", "access " + minAccess + " " + maxAccess);
+
+            App.boredApiClient.getBoredAction(requestOptions, new IBoredApiClient.BoredActionCallback() {
                 @Override
                 public void onSuccess(BoredAction action) {
-                    showLoading();
+
                     showViewsOnSuccess();
+                    showLoading();
+
                     if (action.getParticipants() == 1) {
-                        participantsImageView.setImageResource(R.drawable.employee);
-                    } else if (action.getParticipants() == 2) {
-                        participantsImageView.setImageResource(R.drawable.employees);
-                    } else if (action.getParticipants() == 3) {
-                        participantsImageView.setImageResource(R.drawable.employee2);
-                    } else if (action.getParticipants() == 4) {
-                        participantsImageView.setImageResource(R.drawable.group);
-                    } else participantsImageView.setImageResource(R.drawable.group);
+                        participantsImageView.setImageResource(R.drawable.employee);}
+                    else if (action.getParticipants() == 2) {
+                        participantsImageView.setImageResource(R.drawable.employees);}
+                    else if (action.getParticipants() == 3) {
+                        participantsImageView.setImageResource(R.drawable.employee2);}
+                    else if (action.getParticipants() == 4) {
+                        participantsImageView.setImageResource(R.drawable.group);}
+                    else participantsImageView.setImageResource(R.drawable.group);
 
-                    float num = action.getAccessibility() * 100;
-                    int a = Math.round(num);
 
-                    progressBarAccess.setProgress(a);
+                    float round = action.getAccessibility() * 100;
+                    progressBarAccess.setProgress((int) round);
                     activity.setText(action.getActivity());
-                    accessibility.setText(String.valueOf(a));
                     type.setText(selected);
-                    participants.setText(String.valueOf(action.getParticipants()));
-                    price.setText(String.valueOf(action.getPrice()));
-                    link.setText(action.getLink());
                     imageLikeView.setImageDrawable(getResources().getDrawable(icon_blue));
 
-                    Toast.makeText(MainActivity.this, "Updated",
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Updated", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -254,30 +273,15 @@ public class MainActivity extends AppCompatActivity {
     //endregion
 
     private void hideProgress() {
-        progressBar.setVisibility(View.GONE);
+        progressBarLoading.setVisibility(View.GONE);
     }
 
     private void showLoading() {
-        progressBar.setVisibility(View.INVISIBLE);
+        progressBarLoading.setVisibility(View.INVISIBLE);
     }
 
     private void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
+        progressBarLoading.setVisibility(View.VISIBLE);
     }
 
-    private void showViewsOnSuccess() {
-        activity.setVisibility(View.VISIBLE);
-        accessibility.setVisibility(View.VISIBLE);
-        type.setVisibility(View.VISIBLE);
-        participants.setVisibility(View.VISIBLE);
-        price.setVisibility(View.VISIBLE);
-        link.setVisibility(View.GONE);
-        participantsImageView.setVisibility(View.VISIBLE);
-        priceImageView.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.INVISIBLE);
-        progressBarAccess.setVisibility(View.VISIBLE);
-        rangePrice.setVisibility(View.VISIBLE);
-        rangeAccessibility.setVisibility(View.VISIBLE);
-        rangeParticipants.setVisibility(View.VISIBLE);
-    }
 }

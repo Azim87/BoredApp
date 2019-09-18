@@ -50,6 +50,7 @@ public class BoredActionFragment extends CoreFragment {
 
     @BindView(R.id.finish_button)
     Button finishButton;
+
     //endregion
 
     @Override
@@ -71,6 +72,7 @@ public class BoredActionFragment extends CoreFragment {
                 finishButton.setVisibility(View.VISIBLE);
                 break;
         }
+
         finishButton.setOnClickListener(view1 -> {
             startActivity(new Intent(getContext(), MainActivity.class));
             getActivity().finish();

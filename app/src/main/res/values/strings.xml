@@ -19,5 +19,7 @@
     <string name="accessibility_seekbar">Accessibility</string>
     <string name="price_seekBar">Price</string>
     <string name="category2">Category</string>
+    <string name="skip">Skip</string>
+    <string name="finish">Finish</string>
 
 </resources>
