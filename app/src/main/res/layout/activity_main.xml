@@ -134,7 +134,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:layout_below="@+id/bored_activity"
-            android:src="@drawable/icons"
+            android:src="@drawable/free_image"
             android:layout_marginLeft="20dp"
             android:layout_width="25dp"
             android:layout_height="30dp"/>
@@ -153,7 +153,7 @@
             android:textAllCaps="false"
             android:textSize="20sp"
             android:textColor="@color/main_button_text_color"
-            android:background="@drawable/next_button_gradient"
+            android:background="@drawable/next_button_style"
             android:text="@string/button_name" />
 
         <TextView

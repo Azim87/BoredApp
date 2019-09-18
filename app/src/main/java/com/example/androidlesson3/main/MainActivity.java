@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-        //endregion
+        //endregion;
     }
     //region Like/Dislike
 
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
     //region Show/hide views
 
 
-    private void hideLoading() {
+    private void hideLoadingViews() {
         showProgress();
         activity.setVisibility(View.INVISIBLE);
         type.setVisibility(View.INVISIBLE);
@@ -217,14 +217,13 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.refresh_button)
     public void refreshAction() {
         refreshButton.setOnClickListener(view -> {
+            hideLoadingViews();
 
             float minPrice = seekBarPrice.getMinThumbValue() / 100.0f;
             float maxPrice = seekBarPrice.getMaxThumbValue() / 100.0f;
 
             float minAccess = seekBarAccess.getMinThumbValue() /100.0f;
             float maxAccess = seekBarAccess.getMaxThumbValue() /100.0f;
-
-            hideLoading();
 
             ActionRequestOptions requestOptions = new ActionRequestOptions(
                     selected,
@@ -233,32 +232,50 @@ public class MainActivity extends AppCompatActivity {
                     minAccess,
                     maxAccess
             );
-            Log.d("ohoho", "price " + minPrice + " " + maxPrice);
-            Log.d("ohoho", "access " + minAccess + " " + maxAccess);
+
+            Log.d("ohoho", "minprice " + minPrice + "maxpcie " + maxPrice + "minaccess " + minAccess + "maxaccess " + maxAccess);
 
             App.boredApiClient.getBoredAction(requestOptions, new IBoredApiClient.BoredActionCallback() {
                 @Override
                 public void onSuccess(BoredAction action) {
-
                     showViewsOnSuccess();
-                    showLoading();
+                    showLoadingProgress();
 
-                    if (action.getParticipants() == 1) {
-                        participantsImageView.setImageResource(R.drawable.employee);}
+                    /* participants */
+                    if (action.getParticipants() == 0) {
+                        Toast.makeText(MainActivity.this, "No any participants", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (action.getParticipants() == 1) {
+                        participantsImageView.setImageResource(R.drawable.employee);
+                    }
                     else if (action.getParticipants() == 2) {
-                        participantsImageView.setImageResource(R.drawable.employees);}
+                        participantsImageView.setImageResource(R.drawable.employees);
+                    }
                     else if (action.getParticipants() == 3) {
-                        participantsImageView.setImageResource(R.drawable.employee2);}
+                        participantsImageView.setImageResource(R.drawable.employee2);
+                    }
                     else if (action.getParticipants() == 4) {
-                        participantsImageView.setImageResource(R.drawable.group);}
+                        participantsImageView.setImageResource(R.drawable.group);
+
+                    }
                     else participantsImageView.setImageResource(R.drawable.group);
 
+                    /*price*/
+                    if (action.getPrice() == 0.0){
+                        priceImageView.setImageResource(R.drawable.free_image);
+                    }
+                    else {
+                        priceImageView.setImageResource(R.drawable.dollar_pay);
+                    }
 
                     float round = action.getAccessibility() * 100;
                     progressBarAccess.setProgress((int) round);
+
                     activity.setText(action.getActivity());
                     type.setText(selected);
                     imageLikeView.setImageDrawable(getResources().getDrawable(icon_blue));
+
+                    Log.d("ohoho", "action " + action.toString());
 
                     Toast.makeText(MainActivity.this, "Updated", Toast.LENGTH_SHORT).show();
                 }
@@ -276,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
         progressBarLoading.setVisibility(View.GONE);
     }
 
-    private void showLoading() {
+    private void showLoadingProgress() {
         progressBarLoading.setVisibility(View.INVISIBLE);
     }
 
